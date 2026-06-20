@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网址详情</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">BlogNav</a>
+            <nav class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="sites.html">网址导航</a>
+                <a href="admin.html">管理后台</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container site-detail-page">
+        <div class="site-detail-card" id="siteDetail">
+            <div class="site-icon-large" id="siteIcon"></div>
+            <h1 id="siteName">加载中...</h1>
+            <p class="site-desc" id="siteDesc"></p>
+            
+            <div class="site-links">
+                <a id="mainLink" href="#" target="_blank" class="btn-primary">直达网站</a>
+                <div id="backupLinks" class="backup-links"></div>
+            </div>
+
+            <div class="site-meta">
+                <div class="meta-item">
+                    <span class="meta-label">分类：</span>
+                    <span id="siteCategory"></span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">标签：</span>
+                    <span id="siteTags"></span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">关键词：</span>
+                    <span id="siteKeywords"></span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© 2026 BlogNav · 部署于 GitHub Pages</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>loadSiteDetail();</script>
+</body>
+</html>
