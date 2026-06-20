@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章详情</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">BlogNav</a>
+            <nav class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="sites.html">网址导航</a>
+                <a href="admin.html">管理后台</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container post-detail">
+        <article id="postContent">
+            <header class="post-header">
+                <h1 id="postTitle">加载中...</h1>
+                <div class="post-meta">
+                    <span id="postDate"></span>
+                    <span class="dot">·</span>
+                    <span id="postWordCount"></span>
+                    <span class="dot">·</span>
+                    <span id="postCategory"></span>
+                </div>
+                <div class="post-tags" id="postTags"></div>
+            </header>
+            <div class="post-body markdown-body" id="postBody"></div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© 2026 BlogNav · 部署于 GitHub Pages</p>
+        </div>
+    </footer>
+
+    <script src="js/marked.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>loadPostDetail();</script>
+</body>
+</html>
