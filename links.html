@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网址导航 - 智汇博客</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <i class="fas fa-brain"></i>
+                    <span>智汇博客</span>
+                </a>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="links.html" class="active">网址导航</a></li>
+                    <li><a href="admin.html" class="admin-link"><i class="fas fa-cog"></i> 后台管理</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- 搜索区域 -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="links-search-input" placeholder="搜索网址、描述、标签或分类...">
+                <button id="links-search-btn">搜索</button>
+            </div>
+            <div class="search-tags">
+                <span>热门分类：</span>
+                <a href="#" class="tag" data-category="开发工具">开发工具</a>
+                <a href="#" class="tag" data-category="学习资源">学习资源</a>
+                <a href="#" class="tag" data-category="AI工具">AI工具</a>
+                <a href="#" class="tag" data-category="效率工具">效率工具</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 主要内容区域 -->
+    <main class="links-main container">
+        <!-- 左侧分类导航 -->
+        <aside class="categories-sidebar">
+            <h3><i class="fas fa-list"></i> 网址分类</h3>
+            <div id="categories-nav" class="categories-nav">
+                <!-- 动态加载分类导航 -->
+            </div>
+        </aside>
+
+        <!-- 右侧网址内容 -->
+        <div class="links-content">
+            <div class="links-header">
+                <h1><i class="fas fa-link"></i> 网址导航</h1>
+                <p>精选优质网站，助您高效工作与学习</p>
+            </div>
+            
+            <div id="links-container">
+                <!-- 动态加载网址分类和内容 -->
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> 正在加载网址导航...
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-brain"></i>
+                    <span>智汇博客</span>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html">首页</a>
+                    <a href="links.html">网址导航</a>
+                    <a href="admin.html">后台管理</a>
+                </div>
+                <div class="footer-copyright">
+                    <p>© 2026 智汇博客 | 基于 GitHub Pages 构建</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // 网址导航页专用脚本
+        document.addEventListener('DOMContentLoaded', function() {
+            loadLinksPage();
+            
+            // 搜索功能
+            document.getElementById('links-search-btn').addEventListener('click', function() {
+                performLinksSearch();
+            });
+            
+            document.getElementById('links-search-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performLinksSearch();
+                }
+            });
+            
+            // 分类标签点击事件
+            document.querySelectorAll('.search-tags .tag').forEach(tag => {
+                tag.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const category = this.getAttribute('data-category');
+                    document.getElementById('links-search-input').value = category;
+                    performLinksSearch();
+                });
+            });
+            
+            function performLinksSearch() {
+                const searchTerm = document.getElementById('links-search-input').value.trim();
+                if (searchTerm) {
+                    window.location.href = `index.html?search=${encodeURIComponent(searchTerm)}`;
+                }
+            }
+        });
+        
+        function loadLinksPage() {
+            const categories = BlogData.getLinkCategories();
+            const links = BlogData.getLinks();
+            
+            // 加载分类导航
+            const categoriesNav = document.getElementById('categories-nav');
+            let navHtml = '<ul>';
+            categories.forEach(category => {
+                navHtml += `
+                <li>
+                    <a href="#category-${category.id}" class="category-nav-link">
+                        <i class="${category.icon || 'fas fa-folder'}"></i>
+                        ${category.name}
+                    </a>
+                </li>`;
+            });
+            navHtml += '</ul>';
+            categoriesNav.innerHTML = navHtml;
+            
+            // 加载网址内容
+            const linksContainer = document.getElementById('links-container');
+            let linksHtml = '';
+            
+            if (categories.length === 0) {
+                linksHtml = `
+                <div class="empty-state">
+                    <i class="fas fa-link"></i>
+                    <h3>暂无网址分类</h3>
+                    <p>请前往<a href="admin.html">后台管理</a>添加网址分类和网址。</p>
+                </div>`;
+            } else {
+                categories.forEach(category => {
+                    const categoryLinks = links.filter(link => link.category === category.name);
+                    
+                    if (categoryLinks.length > 0) {
+                        linksHtml += `
+                        <section id="category-${category.id}" class="link-category">
+                            <div class="category-header">
+                                <h2><i class="${category.icon || 'fas fa-folder'}"></i> ${category.name}</h2>
+                                <span class="category-count">${categoryLinks.length} 个网址</span>
+                            </div>
+                            <div class="links-grid">`;
+                        
+                        categoryLinks.forEach(link => {
+                            linksHtml += `
+                            <div class="link-card" data-id="${link.id}">
+                                <a href="link-detail.html?id=${link.id}">
+                                    <div class="link-icon">
+                                        <img src="${link.icon || 'images/default-icon.png'}" alt="${link.name}">
+                                    </div>
+                                    <div class="link-info">
+                                        <h3>${link.name}</h3>
+                                        <p>${link.description.substring(0, 60)}${link.description.length > 60 ? '...' : ''}</p>
+                                        <div class="link-tags">
+                                            ${link.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>`;
+                        });
+                        
+                        linksHtml += `
+                            </div>
+                        </section>`;
+                    }
+                });
+                
+                // 如果没有任何网址
+                if (linksHtml === '') {
+                    linksHtml = `
+                    <div class="empty-state">
+                        <i class="fas fa-link"></i>
+                        <h3>暂无网址</h3>
+                        <p>请前往<a href="admin.html">后台管理</a>添加网址。</p>
+                    </div>`;
+                }
+            }
+            
+            linksContainer.innerHTML = linksHtml;
+            
+            // 添加平滑滚动
+            document.querySelectorAll('.category-nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
