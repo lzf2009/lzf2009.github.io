@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全部网址导航</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container fade-wrap">
+  <div class="header-bar">
+    <a href="index.html" class="site-title">网址导航大全</a>
+    <div class="search-wrap">
+      <input type="text" class="search-input" id="nav-search" placeholder="搜索网站名称、关键词">
+    </div>
+    <div>
+      <a href="index.html" class="nav-link">首页</a>
+      <a href="admin.html" class="nav-link">后台管理</a>
+    </div>
+  </div>
+
+  <div class="nav-page-wrap">
+    <!-- 左侧分类快速定位侧边栏 -->
+    <div class="nav-sidebar" id="sidebar-cat"></div>
+    <!-- 右侧网站卡片区域 -->
+    <div id="site-group-wrap"></div>
+  </div>
+</div>
+<script src="js/main.js"></script>
+<script>
+function renderAllSites(keyword="") {
+  const sites = getStorage(STORAGE_SITES);
+  const cats = getStorage(STORAGE_CAT_SITE);
+  const kw = keyword.toLowerCase().trim();
+  // 过滤搜索
+  const filterSites = kw ? sites.filter(s=>
+    s.name.toLowerCase().includes(kw)||s.searchKey.toLowerCase().includes(kw)||s.desc.toLowerCase().includes(kw)
+  ) : sites;
+  // 渲染侧边分类
+  const sideBox = document.getElementById("sidebar-cat");
+  sideBox.innerHTML = "";
+  cats.forEach(c=>{
+    const div = document.createElement("div");
+    div.className = "nav-category-item";
+    div.innerText = c;
+    div.onclick = ()=> document.getElementById(`cat-${c}`)?.scrollIntoView({behavior:"smooth"});
+    sideBox.appendChild(div);
+  })
+  // 按分类分组渲染网站
+  const groupBox = document.getElementById("site-group-wrap");
+  groupBox.innerHTML = "";
+  cats.forEach(catName=>{
+    const groupSites = filterSites.filter(s=>s.category === catName);
+    if(groupSites.length ===0) return;
+    const groupWrap = document.createElement("div");
+    groupWrap.id = `cat-${catName}`;
+    groupWrap.innerHTML = `<h3 class="nav-group-title">${catName}</h3>`;
+    groupSites.forEach(s=>{
+      const card = document.createElement("a");
+      card.href = `post3.html?id=${s.id}`;
+      card.className = "card site-card";
+      card.innerHTML = `
+        <img class="site-icon" src="${s.icon||''}">
+        <div class="site-info">
+          <h4>${s.name}</h4>
+          <p>${s.desc}</p>
+        </div>
+      `;
+      groupWrap.appendChild(card);
+    })
+    groupBox.appendChild(groupWrap);
+  })
+}
+window.onload = ()=>{
+  renderAllSites();
+  document.getElementById("nav-search").addEventListener("input", e=>renderAllSites(e.target.value));
+}
+</script>
+</body>
+</html>
