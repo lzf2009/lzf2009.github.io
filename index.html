@@ -3,169 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>智汇博客 - 技术分享与资源导航</title>
+    <title>首页 | 博客与导航</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 </head>
 <body>
-    <!-- 顶部导航栏 -->
-    <header class="header">
-        <div class="container">
-            <div class="logo">
-                <a href="index.html">
-                    <i class="fas fa-brain"></i>
-                    <span>智汇博客</span>
-                </a>
-            </div>
-            <nav class="nav">
-                <ul>
-                    <li><a href="index.html" class="active">首页</a></li>
-                    <li><a href="links.html">网址导航</a></li>
-                    <li><a href="admin.html" class="admin-link"><i class="fas fa-cog"></i> 后台管理</a></li>
-                </ul>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">BlogNav</a>
+            <nav class="nav-links">
+                <a href="index.html" class="active">首页</a>
+                <a href="sites.html">网址导航</a>
+                <a href="admin.html">管理后台</a>
             </nav>
-            <div class="mobile-menu-toggle">
-                <i class="fas fa-bars"></i>
-            </div>
         </div>
     </header>
 
-    <!-- 搜索区域 -->
-    <section class="search-section">
-        <div class="container">
+    <main class="container main-content">
+        <!-- 全局搜索框 -->
+        <section class="search-section">
             <div class="search-box">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" id="search-input" placeholder="搜索文章、网址、标签或分类...">
-                <button id="search-btn">搜索</button>
+                <input type="text" id="globalSearch" placeholder="搜索文章、网址、标签、分类...">
+                <div class="search-results" id="searchResults"></div>
             </div>
-            <div class="search-tags">
-                <span>热门搜索：</span>
-                <a href="#" class="tag" data-search="前端开发">前端开发</a>
-                <a href="#" class="tag" data-search="AI工具">AI工具</a>
-                <a href="#" class="tag" data-search="效率工具">效率工具</a>
-                <a href="#" class="tag" data-search="学习资源">学习资源</a>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 主要内容区域 -->
-    <main class="main-content container">
-        <!-- 移动端布局 -->
-        <div class="mobile-layout">
-            <!-- 置顶文章 -->
-            <section class="top-post-section">
-                <h2 class="section-title"><i class="fas fa-thumbtack"></i> 置顶文章</h2>
-                <div id="top-post-container" class="top-post">
-                    <!-- 动态加载置顶文章 -->
+        <div class="home-layout">
+            <!-- 左侧：文章列表 -->
+            <section class="posts-section">
+                <div class="section-header">
+                    <h2>最新文章</h2>
+                    <a href="posts.html" class="view-all">查看全部 →</a>
                 </div>
+                <div class="posts-list" id="postsList"></div>
             </section>
 
-            <!-- 最新文章 -->
-            <section class="recent-posts-section">
-                <h2 class="section-title"><i class="fas fa-clock"></i> 最新文章</h2>
-                <div id="recent-posts-container" class="posts-grid">
-                    <!-- 动态加载最新文章 -->
+            <!-- 右侧：网址导航 -->
+            <aside class="sites-section">
+                <div class="section-header">
+                    <h2>常用网址</h2>
+                    <a href="sites.html" class="view-all">全部导航 →</a>
                 </div>
-                <div class="view-all">
-                    <a href="#" id="view-all-posts" class="btn">查看全部文章</a>
-                </div>
-            </section>
-
-            <!-- 常用网址导航 -->
-            <section class="quick-links-section">
-                <h2 class="section-title"><i class="fas fa-link"></i> 常用网址导航</h2>
-                <div id="quick-links-container" class="links-grid">
-                    <!-- 动态加载常用网址 -->
-                </div>
-                <div class="view-all">
-                    <a href="links.html" class="btn">查看全部网址</a>
-                </div>
-            </section>
-        </div>
-
-        <!-- 桌面端布局 -->
-        <div class="desktop-layout">
-            <!-- 左侧：文章区域 -->
-            <div class="articles-column">
-                <!-- 置顶文章 -->
-                <section class="top-post-section">
-                    <h2 class="section-title"><i class="fas fa-thumbtack"></i> 置顶文章</h2>
-                    <div id="top-post-desktop" class="top-post">
-                        <!-- 动态加载置顶文章 -->
-                    </div>
-                </section>
-
-                <!-- 最新文章 -->
-                <section class="recent-posts-section">
-                    <div class="section-header">
-                        <h2 class="section-title"><i class="fas fa-clock"></i> 最新文章</h2>
-                        <a href="#" id="view-all-posts-desktop" class="view-all-link">查看全部</a>
-                    </div>
-                    <div id="recent-posts-desktop" class="posts-list">
-                        <!-- 动态加载最新文章 -->
-                    </div>
-                </section>
-            </div>
-
-            <!-- 右侧：网址导航区域 -->
-            <div class="links-column">
-                <section class="quick-links-section">
-                    <div class="section-header">
-                        <h2 class="section-title"><i class="fas fa-link"></i> 常用网址导航</h2>
-                        <a href="links.html" class="view-all-link">查看全部</a>
-                    </div>
-                    <div id="quick-links-desktop" class="links-list">
-                        <!-- 动态加载常用网址 -->
-                    </div>
-                </section>
-
-                <!-- 文章分类 -->
-                <section class="categories-section">
-                    <h2 class="section-title"><i class="fas fa-folder"></i> 文章分类</h2>
-                    <div id="categories-list" class="categories-list">
-                        <!-- 动态加载分类 -->
-                    </div>
-                </section>
-
-                <!-- 热门标签 -->
-                <section class="tags-section">
-                    <h2 class="section-title"><i class="fas fa-tags"></i> 热门标签</h2>
-                    <div id="popular-tags" class="tags-cloud">
-                        <!-- 动态加载标签 -->
-                    </div>
-                </section>
-            </div>
+                <div class="sites-grid" id="sitesWidget"></div>
+            </aside>
         </div>
     </main>
 
-    <!-- 页脚 -->
-    <footer class="footer">
+    <footer class="site-footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <i class="fas fa-brain"></i>
-                    <span>智汇博客</span>
-                </div>
-                <div class="footer-links">
-                    <a href="index.html">首页</a>
-                    <a href="links.html">网址导航</a>
-                    <a href="admin.html">后台管理</a>
-                    <a href="#" id="export-data">导出数据</a>
-                </div>
-                <div class="footer-copyright">
-                    <p>© 2026 智汇博客 | 基于 GitHub Pages 构建 | 数据存储在浏览器本地</p>
-                </div>
-            </div>
+            <p>© 2026 BlogNav · 部署于 GitHub Pages</p>
         </div>
     </footer>
 
-    <!-- 返回顶部按钮 -->
-    <button id="back-to-top" class="back-to-top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
-    <script src="js/data.js"></script>
+    <script src="js/marked.min.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
