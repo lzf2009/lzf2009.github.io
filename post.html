@@ -3,138 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>后台管理 | 我的技术博客</title>
+    <title>文章详情 - 智汇博客</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 </head>
 <body>
-    <header class="header admin-header">
+    <!-- 顶部导航栏 -->
+    <header class="header">
         <div class="container">
-            <h1><i class="fas fa-cog"></i> 博客后台管理</h1>
-            <p class="tagline">撰写和管理您的博客文章</p>
+            <div class="logo">
+                <a href="index.html">
+                    <i class="fas fa-brain"></i>
+                    <span>智汇博客</span>
+                </a>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="links.html">网址导航</a></li>
+                    <li><a href="admin.html" class="admin-link"><i class="fas fa-cog"></i> 后台管理</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
     </header>
 
-    <nav class="navbar">
-        <div class="container">
-            <ul class="nav-links">
-                <li><a href="index.html"><i class="fas fa-home"></i> 返回首页</a></li>
-                <li><a href="#" id="newPostBtn" class="active"><i class="fas fa-plus-circle"></i> 新建文章</a></li>
-                <li><a href="#" id="managePostsBtn"><i class="fas fa-edit"></i> 管理文章</a></li>
-                <li><a href="#" id="exportDataBtn"><i class="fas fa-download"></i> 导出数据</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <main class="container admin-container">
-        <div id="editorSection" class="admin-section">
-            <h2><i class="fas fa-edit"></i> 文章编辑器</h2>
-            <div class="form-group">
-                <label for="postTitle"><i class="fas fa-heading"></i> 文章标题</label>
-                <input type="text" id="postTitle" placeholder="请输入文章标题">
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="postCategory"><i class="fas fa-folder"></i> 分类</label>
-                    <select id="postCategory">
-                        <option value="tech">技术</option>
-                        <option value="tutorial">教程</option>
-                        <option value="note">笔记</option>
-                        <option value="life">生活</option>
-                    </select>
+    <!-- 文章详情内容 -->
+    <main class="post-main container">
+        <article class="post-article">
+            <header class="post-header">
+                <h1 id="post-title">文章标题</h1>
+                <div class="post-meta">
+                    <span class="post-date"><i class="far fa-calendar-alt"></i> <span id="post-date">发布日期</span></span>
+                    <span class="post-category"><i class="far fa-folder"></i> <span id="post-category">分类</span></span>
+                    <span class="post-tags"><i class="fas fa-tags"></i> <span id="post-tags">标签</span></span>
+                    <span class="post-wordcount"><i class="far fa-file-word"></i> <span id="post-wordcount">字数</span></span>
                 </div>
-                
-                <div class="form-group">
-                    <label for="postTags"><i class="fas fa-tags"></i> 标签（逗号分隔）</label>
-                    <input type="text" id="postTags" placeholder="例如：JavaScript, HTML, CSS">
+            </header>
+            
+            <div class="post-content" id="post-content">
+                <!-- 文章内容将通过JS动态加载 -->
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> 正在加载文章内容...
                 </div>
             </div>
             
-            <div class="form-group">
-                <label for="postContentEditor"><i class="fas fa-pencil-alt"></i> 文章内容 (Markdown)</label>
-                <textarea id="postContentEditor"></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="postExcerpt"><i class="fas fa-align-left"></i> 文章摘要</label>
-                <textarea id="postExcerpt" rows="3" placeholder="文章摘要将显示在首页列表中"></textarea>
-            </div>
-            
-            <div class="form-actions">
-                <button id="savePostBtn" class="btn btn-primary"><i class="fas fa-save"></i> 保存文章</button>
-                <button id="previewPostBtn" class="btn btn-secondary"><i class="fas fa-eye"></i> 预览</button>
-                <button id="clearFormBtn" class="btn btn-outline"><i class="fas fa-times"></i> 清空</button>
-            </div>
-        </div>
-        
-        <div id="postsListSection" class="admin-section" style="display: none;">
-            <h2><i class="fas fa-list"></i> 文章管理</h2>
-            <div class="posts-management">
-                <div class="management-controls">
-                    <input type="text" id="filterPosts" placeholder="筛选文章...">
-                    <select id="filterCategory">
-                        <option value="">所有分类</option>
-                        <option value="tech">技术</option>
-                        <option value="tutorial">教程</option>
-                        <option value="note">笔记</option>
-                        <option value="life">生活</option>
-                    </select>
+            <footer class="post-footer">
+                <div class="post-actions">
+                    <button id="edit-post-btn" class="btn btn-primary"><i class="fas fa-edit"></i> 编辑文章</button>
+                    <button id="back-to-list" class="btn"><i class="fas fa-arrow-left"></i> 返回列表</button>
                 </div>
-                
-                <div id="postsTableContainer">
-                    <table class="posts-table">
-                        <thead>
-                            <tr>
-                                <th>标题</th>
-                                <th>分类</th>
-                                <th>日期</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody id="postsTableBody">
-                            <!-- 文章列表将通过JS动态加载 -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        
-        <div id="previewSection" class="admin-section" style="display: none;">
-            <h2><i class="fas fa-eye"></i> 文章预览</h2>
-            <div class="preview-container">
-                <div class="preview-header">
-                    <h3 id="previewTitle"></h3>
-                    <div class="post-meta">
-                        <span id="previewCategory"></span>
-                        <span id="previewDate"></span>
-                        <span id="previewTags"></span>
+                <div class="post-navigation">
+                    <div class="prev-post">
+                        <span><i class="fas fa-chevron-left"></i> 上一篇</span>
+                        <a href="#" id="prev-post-link">上一篇文章标题</a>
+                    </div>
+                    <div class="next-post">
+                        <span>下一篇 <i class="fas fa-chevron-right"></i></span>
+                        <a href="#" id="next-post-link">下一篇文章标题</a>
                     </div>
                 </div>
-                <div id="previewContent" class="preview-content">
-                    <!-- 预览内容将通过JS动态加载 -->
-                </div>
-                <div class="form-actions">
-                    <button id="backToEditBtn" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 返回编辑</button>
+            </footer>
+        </article>
+        
+        <!-- 侧边栏 -->
+        <aside class="post-sidebar">
+            <div class="sidebar-widget">
+                <h3><i class="fas fa-info-circle"></i> 文章信息</h3>
+                <div class="widget-content">
+                    <p><strong>发布日期：</strong><span id="sidebar-post-date">2026-01-01</span></p>
+                    <p><strong>分类：</strong><span id="sidebar-post-category">未分类</span></p>
+                    <p><strong>标签：</strong><span id="sidebar-post-tags">无标签</span></p>
+                    <p><strong>字数：</strong><span id="sidebar-post-wordcount">0</span> 字</p>
                 </div>
             </div>
-        </div>
+            
+            <div class="sidebar-widget">
+                <h3><i class="fas fa-folder-open"></i> 相关分类</h3>
+                <div class="widget-content" id="related-categories">
+                    <!-- 动态加载相关分类 -->
+                </div>
+            </div>
+            
+            <div class="sidebar-widget">
+                <h3><i class="fas fa-link"></i> 相关网址</h3>
+                <div class="widget-content" id="related-links">
+                    <!-- 动态加载相关网址 -->
+                </div>
+            </div>
+        </aside>
     </main>
 
+    <!-- 页脚 -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 我的技术博客 | 后台管理系统</p>
-            <p class="footer-links">
-                <a href="index.html">返回首页</a> | 
-                <a href="#" id="logoutBtn">退出管理</a>
-            </p>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-brain"></i>
+                    <span>智汇博客</span>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html">首页</a>
+                    <a href="links.html">网址导航</a>
+                    <a href="admin.html">后台管理</a>
+                </div>
+                <div class="footer-copyright">
+                    <p>© 2026 智汇博客 | 基于 GitHub Pages 构建</p>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
-    <script src="js/admin.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // 文章详情页专用脚本
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('id');
+            
+            if (postId) {
+                loadPostDetail(postId);
+            } else {
+                document.getElementById('post-content').innerHTML = '<div class="error">未找到文章ID，请检查链接是否正确。</div>';
+            }
+            
+            // 返回列表按钮
+            document.getElementById('back-to-list').addEventListener('click', function() {
+                window.location.href = 'index.html';
+            });
+            
+            // 编辑文章按钮
+            document.getElementById('edit-post-btn').addEventListener('click', function() {
+                window.location.href = `admin.html?editPost=${postId}`;
+            });
+        });
+        
+        function loadPostDetail(postId) {
+            const post = BlogData.getPostById(postId);
+            
+            if (!post) {
+                document.getElementById('post-content').innerHTML = '<div class="error">未找到该文章，可能已被删除。</div>';
+                return;
+            }
+            
+            // 设置页面标题
+            document.title = `${post.title} - 智汇博客`;
+            
+            // 填充文章信息
+            document.getElementById('post-title').textContent = post.title;
+            document.getElementById('post-date').textContent = formatDate(post.date);
+            document.getElementById('post-category').textContent = post.category;
+            document.getElementById('post-tags').textContent = post.tags.join(', ');
+            document.getElementById('post-wordcount').textContent = `${post.wordCount} 字`;
+            
+            // 侧边栏信息
+            document.getElementById('sidebar-post-date').textContent = formatDate(post.date);
+            document.getElementById('sidebar-post-category').textContent = post.category;
+            document.getElementById('sidebar-post-tags').textContent = post.tags.join(', ');
+            document.getElementById('sidebar-post-wordcount').textContent = post.wordCount;
+            
+            // 渲染Markdown内容
+            const contentElement = document.getElementById('post-content');
+            contentElement.innerHTML = marked.parse(post.content);
+            
+            // 高亮代码块
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+            
+            // 加载相关分类
+            loadRelatedCategories(post.category);
+            
+            // 加载相关网址
+            loadRelatedLinks(post.tags);
+            
+            // 加载上一篇/下一篇文章
+            loadPostNavigation(postId);
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('zh-CN', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+        
+        function loadRelatedCategories(category) {
+            const categoriesContainer = document.getElementById('related-categories');
+            const allCategories = BlogData.getCategories();
+            
+            let html = '';
+            allCategories.forEach(cat => {
+                if (cat.name === category) {
+                    html += `<a href="index.html?category=${encodeURIComponent(cat.name)}" class="category-tag active">${cat.name}</a>`;
+                } else {
+                    html += `<a href="index.html?category=${encodeURIComponent(cat.name)}" class="category-tag">${cat.name}</a>`;
+                }
+            });
+            
+            categoriesContainer.innerHTML = html || '<p>暂无分类</p>';
+        }
+        
+        function loadRelatedLinks(tags) {
+            const linksContainer = document.getElementById('related-links');
+            const allLinks = BlogData.getLinks();
+            
+            // 查找与文章标签相关的网址
+            const relatedLinks = allLinks.filter(link => {
+                return link.tags.some(tag => tags.includes(tag));
+            }).slice(0, 5); // 最多显示5个
+            
+            let html = '';
+            if (relatedLinks.length > 0) {
+                relatedLinks.forEach(link => {
+                    html += `
+                    <div class="related-link">
+                        <a href="link-detail.html?id=${link.id}" target="_blank">
+                            <img src="${link.icon || 'images/default-icon.png'}" alt="${link.name}" class="link-icon">
+                            <div class="link-info">
+                                <h4>${link.name}</h4>
+                                <p>${link.description.substring(0, 50)}...</p>
+                            </div>
+                        </a>
+                    </div>`;
+                });
+            } else {
+                html = '<p>暂无相关网址</p>';
+            }
+            
+            linksContainer.innerHTML = html;
+        }
+        
+        function loadPostNavigation(currentPostId) {
+            const allPosts = BlogData.getPosts();
+            const currentIndex = allPosts.findIndex(post => post.id === currentPostId);
+            
+            // 上一篇
+            const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+            const prevLink = document.getElementById('prev-post-link');
+            if (prevPost) {
+                prevLink.href = `post.html?id=${prevPost.id}`;
+                prevLink.textContent = prevPost.title;
+                document.querySelector('.prev-post').style.display = 'block';
+            } else {
+                document.querySelector('.prev-post').style.display = 'none';
+            }
+            
+            // 下一篇
+            const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+            const nextLink = document.getElementById('next-post-link');
+            if (nextPost) {
+                nextLink.href = `post.html?id=${nextPost.id}`;
+                nextLink.textContent = nextPost.title;
+                document.querySelector('.next-post').style.display = 'block';
+            } else {
+                document.querySelector('.next-post').style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
