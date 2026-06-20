@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文章详情</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container fade-wrap">
+  <div class="header-bar">
+    <a href="index.html" class="site-title">博客导航站</a>
+    <div>
+      <a href="index.html" class="nav-link">首页</a>
+      <a href="post2.html" class="nav-link">网址导航</a>
+      <a href="admin.html" class="nav-link">后台</a>
+    </div>
+  </div>
+  <div id="post-container"></div>
+</div>
+<script src="js/main.js"></script>
+<script>
+window.onload = ()=>{
+  const id = getUrlParam("id");
+  const posts = getStorage(STORAGE_POSTS);
+  const p = posts.find(x=>x.id===id);
+  const box = document.getElementById("post-container");
+  if(!p) return box.innerHTML = "<h2>文章不存在</h2><a href='index.html'>返回首页</a>";
+  // 简易markdown渲染（基础标签、图片支持 ![](图片链接)）
+  let html = p.content
+    .replace(/!\[(.*?)\]\((.*?)\)/g, `<img alt="$1" src="$2">`)
+    .replace(/^# (.*)$/gm, `<h1>$1</h1>`)
+    .replace(/^## (.*)$/gm, `<h2>$1</h2>`)
+    .replace(/^### (.*)$/gm, `<h3>$1</h3>`)
+    .replace(/\*\*(.*?)\*\*/g, `<strong>$1</strong>`)
+    .replace(/\*(.*?)\*/g, `<em>$1</em>`)
+    .replace(/\n/g,"<br>");
+  box.innerHTML = `
+    <div class="post-head">
+      <h1 class="post-title">${p.title}</h1>
+      <div class="post-meta">
+        发布时间：${p.createTime} | 最后修改：${p.updateTime} | 字数：${p.wordCount}
+        <div class="tag-wrap" style="margin-top:8px;">
+          <span class="tag">分类：${p.category}</span>
+          ${p.tags.map(t=>`<span class="tag">${t}</span>`).join("")}
+        </div>
+      </div>
+    </div>
+    <div class="post-content">${html}</div>
+    <div style="margin-top:32px;">
+      <a href="index.html" class="btn btn-outline">← 返回首页</a>
+    </div>
+  `;
+}
+</script>
+</body>
+</html>
