@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理 | 我的技术博客</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.css">
+</head>
+<body>
+    <header class="header admin-header">
+        <div class="container">
+            <h1><i class="fas fa-cog"></i> 博客后台管理</h1>
+            <p class="tagline">撰写和管理您的博客文章</p>
+        </div>
+    </header>
+
+    <nav class="navbar">
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> 返回首页</a></li>
+                <li><a href="#" id="newPostBtn" class="active"><i class="fas fa-plus-circle"></i> 新建文章</a></li>
+                <li><a href="#" id="managePostsBtn"><i class="fas fa-edit"></i> 管理文章</a></li>
+                <li><a href="#" id="exportDataBtn"><i class="fas fa-download"></i> 导出数据</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container admin-container">
+        <div id="editorSection" class="admin-section">
+            <h2><i class="fas fa-edit"></i> 文章编辑器</h2>
+            <div class="form-group">
+                <label for="postTitle"><i class="fas fa-heading"></i> 文章标题</label>
+                <input type="text" id="postTitle" placeholder="请输入文章标题">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="postCategory"><i class="fas fa-folder"></i> 分类</label>
+                    <select id="postCategory">
+                        <option value="tech">技术</option>
+                        <option value="tutorial">教程</option>
+                        <option value="note">笔记</option>
+                        <option value="life">生活</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="postTags"><i class="fas fa-tags"></i> 标签（逗号分隔）</label>
+                    <input type="text" id="postTags" placeholder="例如：JavaScript, HTML, CSS">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="postContentEditor"><i class="fas fa-pencil-alt"></i> 文章内容 (Markdown)</label>
+                <textarea id="postContentEditor"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="postExcerpt"><i class="fas fa-align-left"></i> 文章摘要</label>
+                <textarea id="postExcerpt" rows="3" placeholder="文章摘要将显示在首页列表中"></textarea>
+            </div>
+            
+            <div class="form-actions">
+                <button id="savePostBtn" class="btn btn-primary"><i class="fas fa-save"></i> 保存文章</button>
+                <button id="previewPostBtn" class="btn btn-secondary"><i class="fas fa-eye"></i> 预览</button>
+                <button id="clearFormBtn" class="btn btn-outline"><i class="fas fa-times"></i> 清空</button>
+            </div>
+        </div>
+        
+        <div id="postsListSection" class="admin-section" style="display: none;">
+            <h2><i class="fas fa-list"></i> 文章管理</h2>
+            <div class="posts-management">
+                <div class="management-controls">
+                    <input type="text" id="filterPosts" placeholder="筛选文章...">
+                    <select id="filterCategory">
+                        <option value="">所有分类</option>
+                        <option value="tech">技术</option>
+                        <option value="tutorial">教程</option>
+                        <option value="note">笔记</option>
+                        <option value="life">生活</option>
+                    </select>
+                </div>
+                
+                <div id="postsTableContainer">
+                    <table class="posts-table">
+                        <thead>
+                            <tr>
+                                <th>标题</th>
+                                <th>分类</th>
+                                <th>日期</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="postsTableBody">
+                            <!-- 文章列表将通过JS动态加载 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div id="previewSection" class="admin-section" style="display: none;">
+            <h2><i class="fas fa-eye"></i> 文章预览</h2>
+            <div class="preview-container">
+                <div class="preview-header">
+                    <h3 id="previewTitle"></h3>
+                    <div class="post-meta">
+                        <span id="previewCategory"></span>
+                        <span id="previewDate"></span>
+                        <span id="previewTags"></span>
+                    </div>
+                </div>
+                <div id="previewContent" class="preview-content">
+                    <!-- 预览内容将通过JS动态加载 -->
+                </div>
+                <div class="form-actions">
+                    <button id="backToEditBtn" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 返回编辑</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 我的技术博客 | 后台管理系统</p>
+            <p class="footer-links">
+                <a href="index.html">返回首页</a> | 
+                <a href="#" id="logoutBtn">退出管理</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
