@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>后台管理系统</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="fade-wrap">
+<div class="container">
+  <div class="header-bar">
+    <h2 class="site-title">内容后台管理</h2>
+    <a href="index.html" class="nav-link">返回首页</a>
+  </div>
+
+  <!-- 顶部切换标签 -->
+  <div class="admin-tab-bar">
+    <div class="admin-tab active" data-tab="write-post" onclick="switchAdminTab('write-post')">撰写/编辑文章</div>
+    <div class="admin-tab" data-tab="manage-post" onclick="switchAdminTab('manage-post')">管理全部文章</div>
+    <div class="admin-tab" data-tab="cat-post" onclick="switchAdminTab('cat-post')">文章分类管理</div>
+    <div class="admin-tab" data-tab="add-site" onclick="switchAdminTab('add-site')">新增/编辑导航网站</div>
+    <div class="admin-tab" data-tab="manage-site" onclick="switchAdminTab('manage-site')">管理全部导航网站</div>
+    <div class="admin-tab" data-tab="cat-site" onclick="switchAdminTab('cat-site')">导航分类管理</div>
+  </div>
+
+  <!-- 1. 写文章面板 默认显示 -->
+  <div id="panel-write-post" class="admin-panel">
+    <div class="card">
+      <div id="edit-post-id" style="color:#999;margin-bottom:12px;"></div>
+      <div class="form-group">
+        <label class="form-label">文章标题</label>
+        <input class="form-input" id="post-title" placeholder="输入文章标题">
+      </div>
+      <div class="form-group">
+        <label class="form-label">文章摘要（首页预览）</label>
+        <input class="form-input" id="post-desc" placeholder="简短概括文章内容">
+      </div>
+      <div class="form-group">
+        <label class="form-label">文章分类</label>
+        <select class="form-input" id="post-category-select"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">文章标签（多个用逗号分隔）</label>
+        <input class="form-input" id="post-tags" placeholder="例如：教程,Linux,NAS">
+      </div>
+      <div class="form-group">
+        <label class="form-label">文章正文（Markdown格式，插入图片语法：![图片说明](图片在线链接)）</label>
+        <textarea class="form-textarea" id="post-md" placeholder="在此编写内容，支持#标题、**加粗**、*斜体*、图片链接"></textarea>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" id="post-top"> 置顶文章（首页优先展示）</label>
+      </div>
+      <div style="display:flex;gap:12px;">
+        <button class="btn btn-primary" onclick="submitPost()">发布/保存修改</button>
+        <button class="btn btn-outline" onclick="resetPostForm()">清空表单</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 管理全部文章 -->
+  <div id="panel-manage-post" class="admin-panel" style="display:none;">
+    <div class="card">
+      <h3 class="block-title">所有文章列表（可编辑、删除）</h3>
+      <div id="post-manage-list"></div>
+    </div>
+  </div>
+
+  <!-- 3. 文章分类增删 -->
+  <div id="panel-cat-post" class="admin-panel" style="display:none;">
+    <div class="card">
+      <h3 class="block-title">文章自定义分类</h3>
+      <div style="display:flex;gap:10px;margin-bottom:16px;">
+        <input class="form-input" id="new-post-cat" placeholder="输入新分类名称">
+        <button class="btn btn-primary" onclick="addPostCat()">新增分类</button>
+      </div>
+      <div id="post-cat-list"></div>
+    </div>
+  </div>
+
+  <!-- 4. 新增导航网站 -->
+  <div id="panel-add-site" class="admin-panel" style="display:none;">
+    <div class="card">
+      <div id="edit-site-id" style="color:#999;margin-bottom:12px;"></div>
+      <div class="form-group">
+        <label class="form-label">网站名称</label>
+        <input class="form-input" id="site-name" placeholder="如：OpenList 文件管理">
+      </div>
+      <div class="form-group">
+        <label class="form-label">网站简介</label>
+        <textarea class="form-textarea" id="site-desc" style="min-height:80px;" placeholder="简单描述网站用途"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">主直达链接</label>
+        <input class="form-input" id="site-main-link" placeholder="http://192.168.1.12:5244">
+      </div>
+      <div class="form-group">
+        <label class="form-label">网站图标在线链接（可选）</label>
+        <input class="form-input" id="site-icon" placeholder="图片外链地址">
+      </div>
+      <div class="form-group">
+        <label class="form-label">导航分类</label>
+        <select class="form-input" id="site-category-select"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">搜索关键词（逗号分隔，方便全局搜索）</label>
+        <input class="form-input" id="site-search-key" placeholder="openlist,文件,NAS,存储">
+      </div>
+      <div class="form-group">
+        <label class="form-label">备用链接（可添加多条）</label>
+        <div id="backup-link-wrap"></div>
+        <button class="btn btn-outline" style="margin-top:10px;" onclick="addBackupLink()">+ 添加一条备用链接</button>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:16px;">
+        <button class="btn btn-primary" onclick="submitSite()">保存网站信息</button>
+        <button class="btn btn-outline" onclick="resetSiteForm()">清空表单</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 全部导航网站管理 -->
+  <div id="panel-manage-site" class="admin-panel" style="display:none;">
+    <div class="card">
+      <h3 class="block-title">全部导航网站列表</h3>
+      <div id="site-manage-list"></div>
+    </div>
+  </div>
+
+  <!-- 6. 导航分类管理 -->
+  <div id="panel-cat-site" class="admin-panel" style="display:none;">
+    <div class="card">
+      <h3 class="block-title">导航网站大类管理</h3>
+      <div style="display:flex;gap:10px;margin-bottom:16px;">
+        <input class="form-input" id="new-site-cat" placeholder="新增导航分类">
+        <button class="btn btn-primary" onclick="addSiteCat()">新增</button>
+      </div>
+      <div id="site-cat-list"></div>
+    </div>
+  </div>
+</div>
+<script src="js/admin.js"></script>
+</body>
+</html>
