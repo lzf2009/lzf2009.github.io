@@ -3,138 +3,1576 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>后台管理 | 我的技术博客</title>
+    <title>后台管理 - 智汇博客</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/easymde/2.18.0/easymde.min.css">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 </head>
-<body>
-    <header class="header admin-header">
-        <div class="container">
-            <h1><i class="fas fa-cog"></i> 博客后台管理</h1>
-            <p class="tagline">撰写和管理您的博客文章</p>
+<body class="admin-body">
+    <!-- 后台头部 -->
+    <header class="admin-header">
+        <div class="admin-header-content">
+            <div class="admin-logo">
+                <i class="fas fa-cog"></i>
+                <span>智汇博客 · 后台管理</span>
+            </div>
+            <div class="admin-user">
+                <span>管理员</span>
+                <a href="index.html" class="btn btn-sm"><i class="fas fa-eye"></i> 查看网站</a>
+            </div>
         </div>
     </header>
 
-    <nav class="navbar">
-        <div class="container">
-            <ul class="nav-links">
-                <li><a href="index.html"><i class="fas fa-home"></i> 返回首页</a></li>
-                <li><a href="#" id="newPostBtn" class="active"><i class="fas fa-plus-circle"></i> 新建文章</a></li>
-                <li><a href="#" id="managePostsBtn"><i class="fas fa-edit"></i> 管理文章</a></li>
-                <li><a href="#" id="exportDataBtn"><i class="fas fa-download"></i> 导出数据</a></li>
-            </ul>
-        </div>
-    </nav>
+    <!-- 后台主体 -->
+    <div class="admin-container">
+        <!-- 侧边导航 -->
+        <aside class="admin-sidebar">
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="#dashboard" class="admin-nav-link active" data-tab="dashboard">
+                        <i class="fas fa-tachometer-alt"></i> 仪表盘
+                    </a></li>
+                    <li><a href="#posts" class="admin-nav-link" data-tab="posts">
+                        <i class="fas fa-edit"></i> 文章管理
+                    </a></li>
+                    <li><a href="#new-post" class="admin-nav-link" data-tab="new-post">
+                        <i class="fas fa-plus-circle"></i> 写新文章
+                    </a></li>
+                    <li><a href="#links" class="admin-nav-link" data-tab="links">
+                        <i class="fas fa-link"></i> 网址管理
+                    </a></li>
+                    <li><a href="#new-link" class="admin-nav-link" data-tab="new-link">
+                        <i class="fas fa-plus-square"></i> 添加网址
+                    </a></li>
+                    <li><a href="#categories" class="admin-nav-link" data-tab="categories">
+                        <i class="fas fa-folder"></i> 分类管理
+                    </a></li>
+                    <li><a href="#settings" class="admin-nav-link" data-tab="settings">
+                        <i class="fas fa-cogs"></i> 系统设置
+                    </a></li>
+                </ul>
+            </nav>
+        </aside>
 
-    <main class="container admin-container">
-        <div id="editorSection" class="admin-section">
-            <h2><i class="fas fa-edit"></i> 文章编辑器</h2>
-            <div class="form-group">
-                <label for="postTitle"><i class="fas fa-heading"></i> 文章标题</label>
-                <input type="text" id="postTitle" placeholder="请输入文章标题">
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="postCategory"><i class="fas fa-folder"></i> 分类</label>
-                    <select id="postCategory">
-                        <option value="tech">技术</option>
-                        <option value="tutorial">教程</option>
-                        <option value="note">笔记</option>
-                        <option value="life">生活</option>
+        <!-- 主内容区域 -->
+        <main class="admin-main">
+            <!-- 仪表盘 -->
+            <section id="dashboard" class="admin-tab active">
+                <h1><i class="fas fa-tachometer-alt"></i> 仪表盘</h1>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #4f46e5;">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-posts">0</h3>
+                            <p>总文章数</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #10b981;">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-links">0</h3>
+                            <p>总网址数</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #f59e0b;">
+                            <i class="fas fa-folder"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-categories">0</h3>
+                            <p>分类数量</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #ef4444;">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-visits">0</h3>
+                            <p>总访问量</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-sections">
+                    <div class="dashboard-section">
+                        <h2><i class="fas fa-chart-line"></i> 最近活动</h2>
+                        <div class="activity-list" id="recent-activity">
+                            <!-- 动态加载最近活动 -->
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-section">
+                        <h2><i class="fas fa-lightbulb"></i> 快速提示</h2>
+                        <div class="tips-list">
+                            <div class="tip-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>使用Markdown写作</h4>
+                                    <p>文章编辑器支持Markdown语法，您可以轻松插入标题、列表、代码块等内容。</p>
+                                </div>
+                            </div>
+                            <div class="tip-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>图片插入方法</h4>
+                                    <p>在文章中插入图片时，请提供图片的网络链接地址。</p>
+                                </div>
+                            </div>
+                            <div class="tip-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>数据备份</h4>
+                                    <p>定期使用"导出数据"功能备份您的文章和网址数据。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 文章管理 -->
+            <section id="posts" class="admin-tab">
+                <div class="section-header">
+                    <h1><i class="fas fa-edit"></i> 文章管理</h1>
+                    <div class="section-actions">
+                        <button id="refresh-posts" class="btn btn-secondary">
+                            <i class="fas fa-sync-alt"></i> 刷新
+                        </button>
+                        <a href="#new-post" class="btn btn-primary admin-nav-link" data-tab="new-post">
+                            <i class="fas fa-plus"></i> 写新文章
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="post-search" placeholder="搜索文章标题、内容或标签...">
+                    </div>
+                    <select id="post-category-filter">
+                        <option value="">全部分类</option>
+                        <!-- 动态加载分类选项 -->
                     </select>
                 </div>
                 
-                <div class="form-group">
-                    <label for="postTags"><i class="fas fa-tags"></i> 标签（逗号分隔）</label>
-                    <input type="text" id="postTags" placeholder="例如：JavaScript, HTML, CSS">
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="postContentEditor"><i class="fas fa-pencil-alt"></i> 文章内容 (Markdown)</label>
-                <textarea id="postContentEditor"></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="postExcerpt"><i class="fas fa-align-left"></i> 文章摘要</label>
-                <textarea id="postExcerpt" rows="3" placeholder="文章摘要将显示在首页列表中"></textarea>
-            </div>
-            
-            <div class="form-actions">
-                <button id="savePostBtn" class="btn btn-primary"><i class="fas fa-save"></i> 保存文章</button>
-                <button id="previewPostBtn" class="btn btn-secondary"><i class="fas fa-eye"></i> 预览</button>
-                <button id="clearFormBtn" class="btn btn-outline"><i class="fas fa-times"></i> 清空</button>
-            </div>
-        </div>
-        
-        <div id="postsListSection" class="admin-section" style="display: none;">
-            <h2><i class="fas fa-list"></i> 文章管理</h2>
-            <div class="posts-management">
-                <div class="management-controls">
-                    <input type="text" id="filterPosts" placeholder="筛选文章...">
-                    <select id="filterCategory">
-                        <option value="">所有分类</option>
-                        <option value="tech">技术</option>
-                        <option value="tutorial">教程</option>
-                        <option value="note">笔记</option>
-                        <option value="life">生活</option>
-                    </select>
-                </div>
-                
-                <div id="postsTableContainer">
-                    <table class="posts-table">
+                <div class="table-responsive">
+                    <table class="data-table" id="posts-table">
                         <thead>
                             <tr>
                                 <th>标题</th>
                                 <th>分类</th>
-                                <th>日期</th>
+                                <th>标签</th>
+                                <th>发布日期</th>
+                                <th>状态</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
-                        <tbody id="postsTableBody">
-                            <!-- 文章列表将通过JS动态加载 -->
+                        <tbody id="posts-table-body">
+                            <!-- 动态加载文章列表 -->
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-        
-        <div id="previewSection" class="admin-section" style="display: none;">
-            <h2><i class="fas fa-eye"></i> 文章预览</h2>
-            <div class="preview-container">
-                <div class="preview-header">
-                    <h3 id="previewTitle"></h3>
-                    <div class="post-meta">
-                        <span id="previewCategory"></span>
-                        <span id="previewDate"></span>
-                        <span id="previewTags"></span>
+                
+                <div class="table-footer">
+                    <div class="table-info">
+                        共 <span id="posts-count">0</span> 篇文章
+                    </div>
+                    <div class="pagination" id="posts-pagination">
+                        <!-- 分页控件 -->
                     </div>
                 </div>
-                <div id="previewContent" class="preview-content">
-                    <!-- 预览内容将通过JS动态加载 -->
+            </section>
+
+            <!-- 写新文章 -->
+            <section id="new-post" class="admin-tab">
+                <div class="section-header">
+                    <h1><i class="fas fa-plus-circle"></i> 写新文章</h1>
+                    <div class="section-actions">
+                        <button id="save-post" class="btn btn-primary">
+                            <i class="fas fa-save"></i> 发布文章
+                        </button>
+                        <button id="preview-post" class="btn btn-secondary">
+                            <i class="fas fa-eye"></i> 预览
+                        </button>
+                    </div>
                 </div>
-                <div class="form-actions">
-                    <button id="backToEditBtn" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 返回编辑</button>
+                
+                <form id="post-form" class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group col-md-8">
+                            <label for="post-title">文章标题 *</label>
+                            <input type="text" id="post-title" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="post-category">文章分类 *</label>
+                            <select id="post-category" class="form-control" required>
+                                <option value="">选择分类</option>
+                                <!-- 动态加载分类选项 -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="post-excerpt">文章摘要</label>
+                        <textarea id="post-excerpt" class="form-control" rows="3" placeholder="简要描述文章内容..."></textarea>
+                        <small class="form-text">摘要将显示在文章列表中，如不填写将自动截取内容前150字</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="post-tags">文章标签</label>
+                        <input type="text" id="post-tags" class="form-control" placeholder="输入标签，用逗号分隔">
+                        <small class="form-text">例如：前端开发, JavaScript, 教程</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="post-content-editor">文章内容 *</label>
+                        <textarea id="post-content-editor"></textarea>
+                        <small class="form-text">
+                            <i class="fas fa-info-circle"></i> 支持Markdown语法。插入图片：![图片描述](图片URL)。图片URL必须是有效的网络链接。
+                        </small>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <div class="form-check">
+                                <input type="checkbox" id="post-top" class="form-check-input">
+                                <label for="post-top" class="form-check-label">设为置顶文章</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 text-right">
+                            <button type="button" id="cancel-post" class="btn btn-secondary">取消</button>
+                            <button type="submit" id="submit-post" class="btn btn-primary">发布文章</button>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="post-id" value="">
+                </form>
+                
+                <!-- 预览模态框 -->
+                <div id="preview-modal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 id="preview-title">文章预览</h2>
+                            <button id="close-preview" class="modal-close">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="preview-content"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 网址管理 -->
+            <section id="links" class="admin-tab">
+                <div class="section-header">
+                    <h1><i class="fas fa-link"></i> 网址管理</h1>
+                    <div class="section-actions">
+                        <button id="refresh-links" class="btn btn-secondary">
+                            <i class="fas fa-sync-alt"></i> 刷新
+                        </button>
+                        <a href="#new-link" class="btn btn-primary admin-nav-link" data-tab="new-link">
+                            <i class="fas fa-plus"></i> 添加网址
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="link-search" placeholder="搜索网址名称、描述或标签...">
+                    </div>
+                    <select id="link-category-filter">
+                        <option value="">全部分类</option>
+                        <!-- 动态加载分类选项 -->
+                    </select>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="data-table" id="links-table">
+                        <thead>
+                            <tr>
+                                <th>网站名称</th>
+                                <th>网址</th>
+                                <th>分类</th>
+                                <th>标签</th>
+                                <th>访问次数</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="links-table-body">
+                            <!-- 动态加载网址列表 -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="table-footer">
+                    <div class="table-info">
+                        共 <span id="links-count">0</span> 个网址
+                    </div>
+                    <div class="pagination" id="links-pagination">
+                        <!-- 分页控件 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- 添加网址 -->
+            <section id="new-link" class="admin-tab">
+                <div class="section-header">
+                    <h1><i class="fas fa-plus-square"></i> 添加网址</h1>
+                    <div class="section-actions">
+                        <button id="save-link" class="btn btn-primary">
+                            <i class="fas fa-save"></i> 保存网址
+                        </button>
+                    </div>
+                </div>
+                
+                <form id="link-form" class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="link-name">网站名称 *</label>
+                            <input type="text" id="link-name" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="link-category">网站分类 *</label>
+                            <select id="link-category" class="form-control" required>
+                                <option value="">选择分类</option>
+                                <!-- 动态加载分类选项 -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="link-url">主链接 *</label>
+                        <input type="url" id="link-url" class="form-control" required placeholder="https://example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>备用链接</label>
+                        <div id="backup-urls-container">
+                            <div class="backup-url-item">
+                                <input type="url" class="form-control backup-url-input" placeholder="https://backup1.example.com">
+                                <button type="button" class="btn btn-sm btn-danger remove-backup-url" style="display:none;">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="button" id="add-backup-url" class="btn btn-sm btn-secondary mt-2">
+                            <i class="fas fa-plus"></i> 添加备用链接
+                        </button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="link-description">网站描述</label>
+                        <textarea id="link-description" class="form-control" rows="3" placeholder="简要描述网站内容..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="link-icon">网站图标URL</label>
+                        <input type="url" id="link-icon" class="form-control" placeholder="https://example.com/favicon.ico">
+                        <small class="form-text">提供网站图标的URL，如不填写将使用默认图标</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="link-tags">网站标签</label>
+                        <input type="text" id="link-tags" class="form-control" placeholder="输入标签，用逗号分隔">
+                        <small class="form-text">例如：开发工具, 在线IDE, 代码编辑</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="link-keywords">搜索提示词</label>
+                        <input type="text" id="link-keywords" class="form-control" placeholder="输入搜索提示词，用逗号分隔">
+                        <small class="form-text">这些词汇将用于搜索匹配，例如：在线编辑器, 代码调试, Web开发</small>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-12 text-right">
+                            <button type="button" id="cancel-link" class="btn btn-secondary">取消</button>
+                            <button type="submit" id="submit-link" class="btn btn-primary">保存网址</button>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="link-id" value="">
+                </form>
+            </section>
+
+            <!-- 分类管理 -->
+            <section id="categories" class="admin-tab">
+                <div class="section-header">
+                    <h1><i class="fas fa-folder"></i> 分类管理</h1>
+                    <div class="section-actions">
+                        <button id="add-category" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> 添加分类
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="categories-management">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>文章分类</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="data-table" id="post-categories-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>分类名称</th>
+                                                    <th>文章数</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="post-categories-body">
+                                                <!-- 动态加载文章分类 -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>网址分类</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="data-table" id="link-categories-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>分类名称</th>
+                                                    <th>网址数</th>
+                                                    <th>图标</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="link-categories-body">
+                                                <!-- 动态加载网址分类 -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 添加/编辑分类模态框 -->
+                <div id="category-modal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 id="category-modal-title">添加分类</h2>
+                            <button id="close-category-modal" class="modal-close">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="category-form">
+                                <div class="form-group">
+                                    <label for="category-name">分类名称 *</label>
+                                    <input type="text" id="category-name" class="form-control" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="category-type">分类类型 *</label>
+                                    <select id="category-type" class="form-control" required>
+                                        <option value="post">文章分类</option>
+                                        <option value="link">网址分类</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group" id="link-icon-group">
+                                    <label for="category-icon">分类图标 (Font Awesome类名)</label>
+                                    <input type="text" id="category-icon" class="form-control" placeholder="fas fa-folder">
+                                    <small class="form-text">例如：fas fa-code, fas fa-globe, fas fa-book</small>
+                                </div>
+                                
+                                <div class="form-group text-right">
+                                    <button type="button" id="cancel-category" class="btn btn-secondary">取消</button>
+                                    <button type="submit" id="save-category" class="btn btn-primary">保存分类</button>
+                                </div>
+                                
+                                <input type="hidden" id="category-id" value="">
+                                <input type="hidden" id="category-original-name" value="">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 系统设置 -->
+            <section id="settings" class="admin-tab">
+                <div class="section-header">
+                    <h1><i class="fas fa-cogs"></i> 系统设置</h1>
+                </div>
+                
+                <div class="settings-sections">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-database"></i> 数据管理</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>导出数据</h4>
+                                    <p>将所有文章、网址和分类数据导出为JSON文件，用于备份或迁移。</p>
+                                </div>
+                                <div class="setting-action">
+                                    <button id="export-data-btn" class="btn btn-primary">
+                                        <i class="fas fa-download"></i> 导出数据
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>导入数据</h4>
+                                    <p>从JSON文件导入数据。注意：这将覆盖现有数据。</p>
+                                </div>
+                                <div class="setting-action">
+                                    <input type="file" id="import-file" accept=".json" style="display:none;">
+                                    <button id="import-data-btn" class="btn btn-secondary">
+                                        <i class="fas fa-upload"></i> 导入数据
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>重置数据</h4>
+                                    <p>清除所有数据并恢复为初始状态。此操作不可撤销。</p>
+                                </div>
+                                <div class="setting-action">
+                                    <button id="reset-data-btn" class="btn btn-danger">
+                                        <i class="fas fa-trash-alt"></i> 重置数据
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-palette"></i> 外观设置</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>网站标题</h4>
+                                    <p>设置网站在浏览器标题栏和顶部导航栏显示的标题。</p>
+                                </div>
+                                <div class="setting-action">
+                                    <input type="text" id="site-title" class="form-control" value="智汇博客">
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>每页显示文章数</h4>
+                                    <p>设置首页和文章管理页面每页显示的文章数量。</p>
+                                </div>
+                                <div class="setting-action">
+                                    <select id="posts-per-page" class="form-control">
+                                        <option value="5">5篇</option>
+                                        <option value="10" selected>10篇</option>
+                                        <option value="15">15篇</option>
+                                        <option value="20">20篇</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 确认对话框 -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <h2 id="confirm-title">确认操作</h2>
+                <button id="close-confirm-modal" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-message">您确定要执行此操作吗？</p>
+                <div class="modal-actions">
+                    <button id="confirm-cancel" class="btn btn-secondary">取消</button>
+                    <button id="confirm-ok" class="btn btn-danger">确认</button>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 我的技术博客 | 后台管理系统</p>
-            <p class="footer-links">
-                <a href="index.html">返回首页</a> | 
-                <a href="#" id="logoutBtn">退出管理</a>
-            </p>
-        </div>
-    </footer>
+    <!-- 通知消息 -->
+    <div id="notification" class="notification"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/easymde/2.18.0/easymde.min.js"></script>
+    <script src="js/data.js"></script>
     <script src="js/admin.js"></script>
+    <script>
+        // 后台管理页专用脚本
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化Markdown编辑器
+            window.postEditor = new EasyMDE({
+                element: document.getElementById('post-content-editor'),
+                spellChecker: false,
+                autosave: {
+                    enabled: true,
+                    uniqueId: "blog-post-editor",
+                    delay: 1000,
+                },
+                toolbar: [
+                    "bold", "italic", "heading", "|",
+                    "quote", "code", "unordered-list", "ordered-list", "|",
+                    "link", "image", "|",
+                    "preview", "side-by-side", "fullscreen", "|",
+                    "guide"
+                ],
+                promptURLs: true,
+                placeholder: "在此处撰写您的文章内容...",
+                status: ["lines", "words", "cursor"]
+            });
+            
+            // 标签切换
+            $('.admin-nav-link').on('click', function(e) {
+                e.preventDefault();
+                
+                // 更新活动标签
+                $('.admin-nav-link').removeClass('active');
+                $(this).addClass('active');
+                
+                // 显示对应的内容区域
+                const tabId = $(this).data('tab');
+                $('.admin-tab').removeClass('active');
+                $(`#${tabId}`).addClass('active');
+                
+                // 如果是编辑文章或网址，加载数据
+                if (tabId === 'new-post') {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const editPostId = urlParams.get('editPost');
+                    if (editPostId) {
+                        loadPostForEditing(editPostId);
+                    }
+                } else if (tabId === 'new-link') {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const editLinkId = urlParams.get('editLink');
+                    if (editLinkId) {
+                        loadLinkForEditing(editLinkId);
+                    }
+                }
+                
+                // 更新URL哈希
+                window.location.hash = tabId;
+            });
+            
+            // 根据URL哈希激活对应标签
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                $(`.admin-nav-link[data-tab="${hash}"]`).trigger('click');
+            } else {
+                // 默认激活仪表盘
+                $('.admin-nav-link[data-tab="dashboard"]').trigger('click');
+            }
+            
+            // 初始化仪表盘数据
+            updateDashboardStats();
+            
+            // 加载文章列表
+            loadPostsTable();
+            
+            // 加载网址列表
+            loadLinksTable();
+            
+            // 加载分类列表
+            loadCategoriesTables();
+            
+            // 文章表单提交
+            $('#post-form').on('submit', function(e) {
+                e.preventDefault();
+                savePost();
+            });
+            
+            // 网址表单提交
+            $('#link-form').on('submit', function(e) {
+                e.preventDefault();
+                saveLink();
+            });
+            
+            // 分类表单提交
+            $('#category-form').on('submit', function(e) {
+                e.preventDefault();
+                saveCategory();
+            });
+            
+            // 添加备用链接
+            $('#add-backup-url').on('click', function() {
+                addBackupUrlField();
+            });
+            
+            // 移除备用链接
+            $(document).on('click', '.remove-backup-url', function() {
+                $(this).closest('.backup-url-item').remove();
+                updateRemoveButtons();
+            });
+            
+            // 添加分类按钮
+            $('#add-category').on('click', function() {
+                showCategoryModal();
+            });
+            
+            // 关闭分类模态框
+            $('#close-category-modal, #cancel-category').on('click', function() {
+                hideCategoryModal();
+            });
+            
+            // 分类类型改变时显示/隐藏图标字段
+            $('#category-type').on('change', function() {
+                if ($(this).val() === 'link') {
+                    $('#link-icon-group').show();
+                } else {
+                    $('#link-icon-group').hide();
+                }
+            });
+            
+            // 导出数据按钮
+            $('#export-data-btn').on('click', function() {
+                BlogData.exportData();
+                showNotification('数据已导出为JSON文件', 'success');
+            });
+            
+            // 导入数据按钮
+            $('#import-data-btn').on('click', function() {
+                $('#import-file').click();
+            });
+            
+            // 处理文件选择
+            $('#import-file').on('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        try {
+                            const data = JSON.parse(event.target.result);
+                            BlogData.importData(data);
+                            showNotification('数据导入成功', 'success');
+                            
+                            // 刷新所有数据
+                            updateDashboardStats();
+                            loadPostsTable();
+                            loadLinksTable();
+                            loadCategoriesTables();
+                        } catch (error) {
+                            showNotification('导入失败：文件格式不正确', 'error');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            });
+            
+            // 重置数据按钮
+            $('#reset-data-btn').on('click', function() {
+                showConfirmModal('重置数据', '确定要重置所有数据吗？此操作不可撤销。', function() {
+                    BlogData.resetData();
+                    showNotification('数据已重置为初始状态', 'success');
+                    
+                    // 刷新所有数据
+                    updateDashboardStats();
+                    loadPostsTable();
+                    loadLinksTable();
+                    loadCategoriesTables();
+                });
+            });
+            
+            // 预览文章
+            $('#preview-post').on('click', function() {
+                const content = window.postEditor.value();
+                const title = $('#post-title').val() || '无标题';
+                
+                $('#preview-title').text(title);
+                $('#preview-content').html(marked.parse(content));
+                $('#preview-modal').addClass('show');
+            });
+            
+            // 关闭预览
+            $('#close-preview').on('click', function() {
+                $('#preview-modal').removeClass('show');
+            });
+            
+            // 取消文章编辑
+            $('#cancel-post').on('click', function() {
+                if (confirm('确定要取消编辑吗？未保存的内容将会丢失。')) {
+                    resetPostForm();
+                    $('.admin-nav-link[data-tab="posts"]').trigger('click');
+                }
+            });
+            
+            // 取消网址编辑
+            $('#cancel-link').on('click', function() {
+                if (confirm('确定要取消编辑吗？未保存的内容将会丢失。')) {
+                    resetLinkForm();
+                    $('.admin-nav-link[data-tab="links"]').trigger('click');
+                }
+            });
+            
+            // 文章搜索
+            $('#post-search').on('keyup', function() {
+                filterPostsTable($(this).val());
+            });
+            
+            // 网址搜索
+            $('#link-search').on('keyup', function() {
+                filterLinksTable($(this).val());
+            });
+            
+            // 文章分类筛选
+            $('#post-category-filter').on('change', function() {
+                filterPostsTableByCategory($(this).val());
+            });
+            
+            // 网址分类筛选
+            $('#link-category-filter').on('change', function() {
+                filterLinksTableByCategory($(this).val());
+            });
+            
+            // 刷新文章列表
+            $('#refresh-posts').on('click', function() {
+                loadPostsTable();
+                showNotification('文章列表已刷新', 'info');
+            });
+            
+            // 刷新网址列表
+            $('#refresh-links').on('click', function() {
+                loadLinksTable();
+                showNotification('网址列表已刷新', 'info');
+            });
+            
+            // 初始化分类下拉框
+            populateCategoryDropdowns();
+        });
+        
+        // 更新仪表盘统计数据
+        function updateDashboardStats() {
+            const stats = BlogData.getStats();
+            
+            $('#total-posts').text(stats.posts);
+            $('#total-links').text(stats.links);
+            $('#total-categories').text(stats.categories);
+            $('#total-visits').text(stats.visits);
+            
+            // 加载最近活动
+            loadRecentActivity();
+        }
+        
+        // 加载最近活动
+        function loadRecentActivity() {
+            const activities = BlogData.getRecentActivities(5);
+            let html = '';
+            
+            if (activities.length === 0) {
+                html = '<div class="empty-state"><p>暂无活动记录</p></div>';
+            } else {
+                activities.forEach(activity => {
+                    let icon = 'fas fa-info-circle';
+                    let color = '#6b7280';
+                    
+                    if (activity.type === 'post_created') {
+                        icon = 'fas fa-edit';
+                        color = '#4f46e5';
+                    } else if (activity.type === 'post_updated') {
+                        icon = 'fas fa-pencil-alt';
+                        color = '#10b981';
+                    } else if (activity.type === 'link_created') {
+                        icon = 'fas fa-link';
+                        color = '#f59e0b';
+                    } else if (activity.type === 'link_updated') {
+                        icon = 'fas fa-sync-alt';
+                        color = '#3b82f6';
+                    } else if (activity.type === 'category_created') {
+                        icon = 'fas fa-folder-plus';
+                        color = '#8b5cf6';
+                    }
+                    
+                    html += `
+                    <div class="activity-item">
+                        <div class="activity-icon" style="background-color: ${color};">
+                            <i class="${icon}"></i>
+                        </div>
+                        <div class="activity-content">
+                            <p>${activity.message}</p>
+                            <span class="activity-time">${formatTimeAgo(activity.timestamp)}</span>
+                        </div>
+                    </div>`;
+                });
+            }
+            
+            $('#recent-activity').html(html);
+        }
+        
+        // 加载文章表格
+        function loadPostsTable() {
+            const posts = BlogData.getPosts();
+            let html = '';
+            
+            if (posts.length === 0) {
+                html = '<tr><td colspan="6" class="text-center">暂无文章，<a href="#new-post" class="admin-nav-link" data-tab="new-post">点击此处</a>创建第一篇文章</td></tr>';
+            } else {
+                posts.forEach(post => {
+                    const statusBadge = post.isTop ? 
+                        '<span class="badge badge-success">置顶</span>' : 
+                        '<span class="badge badge-secondary">普通</span>';
+                    
+                    html += `
+                    <tr>
+                        <td>
+                            <strong>${post.title}</strong>
+                            ${post.excerpt ? `<br><small class="text-muted">${post.excerpt.substring(0, 50)}...</small>` : ''}
+                        </td>
+                        <td>${post.category}</td>
+                        <td>
+                            ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </td>
+                        <td>${formatDate(post.date)}</td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-sm btn-primary edit-post" data-id="${post.id}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger delete-post" data-id="${post.id}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                                <a href="post.html?id=${post.id}" target="_blank" class="btn btn-sm btn-secondary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>`;
+                });
+            }
+            
+            $('#posts-table-body').html(html);
+            $('#posts-count').text(posts.length);
+            
+            // 绑定编辑和删除按钮事件
+            $('.edit-post').on('click', function() {
+                const postId = $(this).data('id');
+                $('.admin-nav-link[data-tab="new-post"]').trigger('click');
+                loadPostForEditing(postId);
+            });
+            
+            $('.delete-post').on('click', function() {
+                const postId = $(this).data('id');
+                const postTitle = $(this).closest('tr').find('td:first strong').text();
+                
+                showConfirmModal('删除文章', `确定要删除文章"${postTitle}"吗？此操作不可撤销。`, function() {
+                    BlogData.deletePost(postId);
+                    loadPostsTable();
+                    updateDashboardStats();
+                    showNotification(`文章"${postTitle}"已删除`, 'success');
+                });
+            });
+        }
+        
+        // 加载网址表格
+        function loadLinksTable() {
+            const links = BlogData.getLinks();
+            let html = '';
+            
+            if (links.length === 0) {
+                html = '<tr><td colspan="6" class="text-center">暂无网址，<a href="#new-link" class="admin-nav-link" data-tab="new-link">点击此处</a>添加第一个网址</td></tr>';
+            } else {
+                links.forEach(link => {
+                    html += `
+                    <tr>
+                        <td>
+                            <strong>${link.name}</strong>
+                            ${link.description ? `<br><small class="text-muted">${link.description.substring(0, 50)}...</small>` : ''}
+                        </td>
+                        <td>
+                            <a href="${link.url}" target="_blank">${link.url.substring(0, 30)}...</a>
+                        </td>
+                        <td>${link.category}</td>
+                        <td>
+                            ${link.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </td>
+                        <td>${link.visitCount || 0}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-sm btn-primary edit-link" data-id="${link.id}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger delete-link" data-id="${link.id}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                                <a href="link-detail.html?id=${link.id}" target="_blank" class="btn btn-sm btn-secondary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>`;
+                });
+            }
+            
+            $('#links-table-body').html(html);
+            $('#links-count').text(links.length);
+            
+            // 绑定编辑和删除按钮事件
+            $('.edit-link').on('click', function() {
+                const linkId = $(this).data('id');
+                $('.admin-nav-link[data-tab="new-link"]').trigger('click');
+                loadLinkForEditing(linkId);
+            });
+            
+            $('.delete-link').on('click', function() {
+                const linkId = $(this).data('id');
+                const linkName = $(this).closest('tr').find('td:first strong').text();
+                
+                showConfirmModal('删除网址', `确定要删除网址"${linkName}"吗？此操作不可撤销。`, function() {
+                    BlogData.deleteLink(linkId);
+                    loadLinksTable();
+                    updateDashboardStats();
+                    showNotification(`网址"${linkName}"已删除`, 'success');
+                });
+            });
+        }
+        
+        // 加载分类表格
+        function loadCategoriesTables() {
+            // 文章分类
+            const postCategories = BlogData.getCategories().filter(cat => cat.type === 'post');
+            let postHtml = '';
+            
+            if (postCategories.length === 0) {
+                postHtml = '<tr><td colspan="3" class="text-center">暂无文章分类，点击上方"添加分类"按钮创建</td></tr>';
+            } else {
+                postCategories.forEach(category => {
+                    const postCount = BlogData.getPostsByCategory(category.name).length;
+                    postHtml += `
+                    <tr>
+                        <td>${category.name}</td>
+                        <td>${postCount}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-sm btn-primary edit-category" data-id="${category.id}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger delete-category" data-id="${category.id}" data-name="${category.name}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>`;
+                });
+            }
+            
+            $('#post-categories-body').html(postHtml);
+            
+            // 网址分类
+            const linkCategories = BlogData.getCategories().filter(cat => cat.type === 'link');
+            let linkHtml = '';
+            
+            if (linkCategories.length === 0) {
+                linkHtml = '<tr><td colspan="4" class="text-center">暂无网址分类，点击上方"添加分类"按钮创建</td></tr>';
+            } else {
+                linkCategories.forEach(category => {
+                    const linkCount = BlogData.getLinksByCategory(category.name).length;
+                    linkHtml += `
+                    <tr>
+                        <td>${category.name}</td>
+                        <td>${linkCount}</td>
+                        <td><i class="${category.icon || 'fas fa-folder'}"></i></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-sm btn-primary edit-category" data-id="${category.id}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger delete-category" data-id="${category.id}" data-name="${category.name}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>`;
+                });
+            }
+            
+            $('#link-categories-body').html(linkHtml);
+            
+            // 绑定分类编辑和删除按钮事件
+            $('.edit-category').on('click', function() {
+                const categoryId = $(this).data('id');
+                showCategoryModal(categoryId);
+            });
+            
+            $('.delete-category').on('click', function() {
+                const categoryId = $(this).data('id');
+                const categoryName = $(this).data('name');
+                
+                showConfirmModal('删除分类', `确定要删除分类"${categoryName}"吗？此操作不可撤销。`, function() {
+                    BlogData.deleteCategory(categoryId);
+                    loadCategoriesTables();
+                    populateCategoryDropdowns();
+                    updateDashboardStats();
+                    showNotification(`分类"${categoryName}"已删除`, 'success');
+                });
+            });
+        }
+        
+        // 填充分类下拉框
+        function populateCategoryDropdowns() {
+            const categories = BlogData.getCategories();
+            const postCategories = categories.filter(cat => cat.type === 'post');
+            const linkCategories = categories.filter(cat => cat.type === 'link');
+            
+            // 文章分类下拉框
+            let postOptions = '<option value="">选择分类</option>';
+            postCategories.forEach(category => {
+                postOptions += `<option value="${category.name}">${category.name}</option>`;
+            });
+            
+            $('#post-category, #post-category-filter').html(postOptions);
+            
+            // 网址分类下拉框
+            let linkOptions = '<option value="">选择分类</option>';
+            linkCategories.forEach(category => {
+                linkOptions += `<option value="${category.name}">${category.name}</option>`;
+            });
+            
+            $('#link-category, #link-category-filter').html(linkOptions);
+        }
+        
+        // 加载文章进行编辑
+        function loadPostForEditing(postId) {
+            const post = BlogData.getPostById(postId);
+            
+            if (!post) {
+                showNotification('未找到该文章', 'error');
+                return;
+            }
+            
+            $('#post-id').val(post.id);
+            $('#post-title').val(post.title);
+            $('#post-excerpt').val(post.excerpt || '');
+            $('#post-category').val(post.category);
+            $('#post-tags').val(post.tags.join(', '));
+            window.postEditor.value(post.content);
+            $('#post-top').prop('checked', post.isTop || false);
+            
+            // 更新页面标题
+            $('#new-post h1').html('<i class="fas fa-edit"></i> 编辑文章');
+            $('#submit-post').html('<i class="fas fa-save"></i> 更新文章');
+        }
+        
+        // 加载网址进行编辑
+        function loadLinkForEditing(linkId) {
+            const link = BlogData.getLinkById(linkId);
+            
+            if (!link) {
+                showNotification('未找到该网址', 'error');
+                return;
+            }
+            
+            $('#link-id').val(link.id);
+            $('#link-name').val(link.name);
+            $('#link-url').val(link.url);
+            $('#link-category').val(link.category);
+            $('#link-description').val(link.description || '');
+            $('#link-icon').val(link.icon || '');
+            $('#link-tags').val(link.tags.join(', '));
+            $('#link-keywords').val(link.searchKeywords ? link.searchKeywords.join(', ') : '');
+            
+            // 清空备用链接容器
+            $('#backup-urls-container').empty();
+            
+            // 添加备用链接
+            if (link.backupUrls && link.backupUrls.length > 0) {
+                link.backupUrls.forEach(url => {
+                    addBackupUrlField(url);
+                });
+            } else {
+                addBackupUrlField();
+            }
+            
+            // 更新页面标题
+            $('#new-link h1').html('<i class="fas fa-edit"></i> 编辑网址');
+            $('#submit-link').html('<i class="fas fa-save"></i> 更新网址');
+        }
+        
+        // 保存文章
+        function savePost() {
+            const postId = $('#post-id').val();
+            const title = $('#post-title').val().trim();
+            const excerpt = $('#post-excerpt').val().trim();
+            const category = $('#post-category').val();
+            const tags = $('#post-tags').val().split(',').map(tag => tag.trim()).filter(tag => tag);
+            const content = window.postEditor.value();
+            const isTop = $('#post-top').is(':checked');
+            
+            // 验证必填字段
+            if (!title || !category || !content) {
+                showNotification('请填写所有必填字段', 'error');
+                return;
+            }
+            
+            const postData = {
+                title,
+                excerpt,
+                category,
+                tags,
+                content,
+                isTop,
+                wordCount: content.replace(/\s+/g, '').length
+            };
+            
+            if (postId) {
+                // 更新现有文章
+                postData.id = postId;
+                BlogData.updatePost(postData);
+                showNotification(`文章"${title}"已更新`, 'success');
+            } else {
+                // 创建新文章
+                BlogData.createPost(postData);
+                showNotification(`文章"${title}"已发布`, 'success');
+            }
+            
+            // 重置表单并切换到文章列表
+            resetPostForm();
+            $('.admin-nav-link[data-tab="posts"]').trigger('click');
+            loadPostsTable();
+            updateDashboardStats();
+        }
+        
+        // 保存网址
+        function saveLink() {
+            const linkId = $('#link-id').val();
+            const name = $('#link-name').val().trim();
+            const url = $('#link-url').val().trim();
+            const category = $('#link-category').val();
+            const description = $('#link-description').val().trim();
+            const icon = $('#link-icon').val().trim();
+            const tags = $('#link-tags').val().split(',').map(tag => tag.trim()).filter(tag => tag);
+            const keywords = $('#link-keywords').val().split(',').map(kw => kw.trim()).filter(kw => kw);
+            
+            // 收集备用链接
+            const backupUrls = [];
+            $('.backup-url-input').each(function() {
+                const url = $(this).val().trim();
+                if (url) backupUrls.push(url);
+            });
+            
+            // 验证必填字段
+            if (!name || !url || !category) {
+                showNotification('请填写所有必填字段', 'error');
+                return;
+            }
+            
+            const linkData = {
+                name,
+                url,
+                category,
+                description,
+                icon,
+                tags,
+                searchKeywords: keywords,
+                backupUrls
+            };
+            
+            if (linkId) {
+                // 更新现有网址
+                linkData.id = linkId;
+                BlogData.updateLink(linkData);
+                showNotification(`网址"${name}"已更新`, 'success');
+            } else {
+                // 创建新网址
+                BlogData.createLink(linkData);
+                showNotification(`网址"${name}"已添加`, 'success');
+            }
+            
+            // 重置表单并切换到网址列表
+            resetLinkForm();
+            $('.admin-nav-link[data-tab="links"]').trigger('click');
+            loadLinksTable();
+            updateDashboardStats();
+        }
+        
+        // 显示分类模态框
+        function showCategoryModal(categoryId = null) {
+            if (categoryId) {
+                // 编辑模式
+                const category = BlogData.getCategoryById(categoryId);
+                if (category) {
+                    $('#category-modal-title').text('编辑分类');
+                    $('#category-id').val(category.id);
+                    $('#category-name').val(category.name);
+                    $('#category-type').val(category.type);
+                    $('#category-icon').val(category.icon || '');
+                    $('#category-original-name').val(category.name);
+                    
+                    if (category.type === 'link') {
+                        $('#link-icon-group').show();
+                    } else {
+                        $('#link-icon-group').hide();
+                    }
+                }
+            } else {
+                // 新建模式
+                $('#category-modal-title').text('添加分类');
+                $('#category-form')[0].reset();
+                $('#category-id').val('');
+                $('#category-original-name').val('');
+                $('#link-icon-group').hide();
+            }
+            
+            $('#category-modal').addClass('show');
+        }
+        
+        // 隐藏分类模态框
+        function hideCategoryModal() {
+            $('#category-modal').removeClass('show');
+        }
+        
+        // 保存分类
+        function saveCategory() {
+            const categoryId = $('#category-id').val();
+            const name = $('#category-name').val().trim();
+            const type = $('#category-type').val();
+            const icon = $('#category-icon').val().trim();
+            const originalName = $('#category-original-name').val();
+            
+            // 验证必填字段
+            if (!name || !type) {
+                showNotification('请填写所有必填字段', 'error');
+                return;
+            }
+            
+            // 检查分类名是否已存在（编辑时排除自身）
+            const existingCategory = BlogData.getCategoryByName(name);
+            if (existingCategory && existingCategory.id !== categoryId) {
+                showNotification(`分类"${name}"已存在`, 'error');
+                return;
+            }
+            
+            const categoryData = {
+                name,
+                type,
+                icon: type === 'link' ? icon : ''
+            };
+            
+            if (categoryId) {
+                // 更新现有分类
+                categoryData.id = categoryId;
+                BlogData.updateCategory(categoryData);
+                
+                // 如果分类名称改变了，更新关联的文章或网址
+                if (originalName && originalName !== name) {
+                    if (type === 'post') {
+                        BlogData.updatePostsCategory(originalName, name);
+                    } else {
+                        BlogData.updateLinksCategory(originalName, name);
+                    }
+                }
+                
+                showNotification(`分类"${name}"已更新`, 'success');
+            } else {
+                // 创建新分类
+                BlogData.createCategory(categoryData);
+                showNotification(`分类"${name}"已添加`, 'success');
+            }
+            
+            // 隐藏模态框并刷新分类表格
+            hideCategoryModal();
+            loadCategoriesTables();
+            populateCategoryDropdowns();
+            updateDashboardStats();
+        }
+        
+        // 添加备用链接输入框
+        function addBackupUrlField(value = '') {
+            const fieldHtml = `
+            <div class="backup-url-item">
+                <input type="url" class="form-control backup-url-input" value="${value}" placeholder="https://backup.example.com">
+                <button type="button" class="btn btn-sm btn-danger remove-backup-url">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>`;
+            
+            $('#backup-urls-container').append(fieldHtml);
+            updateRemoveButtons();
+        }
+        
+        // 更新移除按钮的显示状态
+        function updateRemoveButtons() {
+            const items = $('.backup-url-item');
+            if (items.length === 1) {
+                items.find('.remove-backup-url').hide();
+            } else {
+                items.find('.remove-backup-url').show();
+            }
+        }
+        
+        // 重置文章表单
+        function resetPostForm() {
+            $('#post-form')[0].reset();
+            $('#post-id').val('');
+            window.postEditor.value('');
+            $('#new-post h1').html('<i class="fas fa-plus-circle"></i> 写新文章');
+            $('#submit-post').html('<i class="fas fa-save"></i> 发布文章');
+        }
+        
+        // 重置网址表单
+        function resetLinkForm() {
+            $('#link-form')[0].reset();
+            $('#link-id').val('');
+            $('#backup-urls-container').empty();
+            addBackupUrlField();
+            $('#new-link h1').html('<i class="fas fa-plus-square"></i> 添加网址');
+            $('#submit-link').html('<i class="fas fa-save"></i> 保存网址');
+        }
+        
+        // 过滤文章表格
+        function filterPostsTable(searchTerm) {
+            const rows = $('#posts-table-body tr');
+            
+            if (!searchTerm) {
+                rows.show();
+                return;
+            }
+            
+            searchTerm = searchTerm.toLowerCase();
+            
+            rows.each(function() {
+                const rowText = $(this).text().toLowerCase();
+                if (rowText.includes(searchTerm)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+        
+        // 按分类过滤文章表格
+        function filterPostsTableByCategory(category) {
+            const rows = $('#posts-table-body tr');
+            
+            if (!category) {
+                rows.show();
+                return;
+            }
+            
+            rows.each(function() {
+                const rowCategory = $(this).find('td:nth-child(2)').text();
+                if (rowCategory === category) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+        
+        // 过滤网址表格
+        function filterLinksTable(searchTerm) {
+            const rows = $('#links-table-body tr');
+            
+            if (!searchTerm) {
+                rows.show();
+                return;
+            }
+            
+            searchTerm = searchTerm.toLowerCase();
+            
+            rows.each(function() {
+                const rowText = $(this).text().toLowerCase();
+                if (rowText.includes(searchTerm)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+        
+        // 按分类过滤网址表格
+        function filterLinksTableByCategory(category) {
+            const rows = $('#links-table-body tr');
+            
+            if (!category) {
+                rows.show();
+                return;
+            }
+            
+            rows.each(function() {
+                const rowCategory = $(this).find('td:nth-child(3)').text();
+                if (rowCategory === category) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+        
+        // 显示确认模态框
+        function showConfirmModal(title, message, callback) {
+            $('#confirm-title').text(title);
+            $('#confirm-message').text(message);
+            $('#confirm-modal').addClass('show');
+            
+            // 确认按钮点击事件
+            $('#confirm-ok').off('click').on('click', function() {
+                callback();
+                $('#confirm-modal').removeClass('show');
+            });
+            
+            // 取消按钮点击事件
+            $('#confirm-cancel, #close-confirm-modal').off('click').on('click', function() {
+                $('#confirm-modal').removeClass('show');
+            });
+        }
+        
+        // 显示通知消息
+        function showNotification(message, type = 'info') {
+            const notification = $('#notification');
+            notification.removeClass('success error info warning').addClass(type);
+            notification.text(message);
+            notification.addClass('show');
+            
+            setTimeout(() => {
+                notification.removeClass('show');
+            }, 3000);
+        }
+        
+        // 格式化日期
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('zh-CN', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+        
+        // 格式化时间为"多久以前"
+        function formatTimeAgo(timestamp) {
+            const now = new Date();
+            const date = new Date(timestamp);
+            const diffMs = now - date;
+            const diffSecs = Math.floor(diffMs / 1000);
+            const diffMins = Math.floor(diffSecs / 60);
+            const diffHours = Math.floor(diffMins / 60);
+            const diffDays = Math.floor(diffHours / 24);
+            
+            if (diffSecs < 60) return '刚刚';
+            if (diffMins < 60) return `${diffMins}分钟前`;
+            if (diffHours < 24) return `${diffHours}小时前`;
+            if (diffDays < 7) return `${diffDays}天前`;
+            
+            return formatDate(timestamp);
+        }
+    </script>
 </body>
 </html>
