@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>博客&导航一体化首页</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container fade-wrap">
+  <div class="header-bar">
+    <a href="index.html" class="site-title">个人博客·资源导航站</a>
+    <div class="search-wrap">
+      <input type="text" class="search-input" id="global-search" placeholder="搜索文章、网站、标签、分类...">
+    </div>
+    <div>
+      <a href="post2.html" class="nav-link">全部导航</a>
+      <a href="admin.html" class="nav-link">后台管理</a>
+    </div>
+  </div>
+
+  <div class="home-grid-pc">
+    <!-- 左侧文章区域 -->
+    <div>
+      <div class="block-title">
+        <span>最新/置顶文章</span>
+        <a href="post.html" class="more-btn">查看全部文章</a>
+      </div>
+      <div id="home-post-list"></div>
+    </div>
+    <!-- 右侧网址导航区域 -->
+    <div>
+      <div class="block-title">
+        <span>常用网址导航</span>
+        <a href="post2.html" class="more-btn">全部导航分类</a>
+      </div>
+      <div id="home-site-list"></div>
+    </div>
+  </div>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>
